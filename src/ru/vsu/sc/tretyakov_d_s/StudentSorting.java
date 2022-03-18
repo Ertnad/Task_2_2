@@ -9,26 +9,29 @@ public class StudentSorting {
 
     public List<List<String>> sortStudent (List<List<String>> list) {
         LinkedList<StudentCase> newList = toStudentList(list);
-        boolean isSorted = false;
+        if (checkCorrectness(newList)) {
+            boolean isSorted = false;
 
-        while (!isSorted) {
-            isSorted = true;
+            while (!isSorted) {
+                isSorted = true;
 
-            for (int i = 0; i < newList.size() - 1; i++) {
-                try {
-                    if (newList.get(i).getCourse() > newList.get(i + 1).getCourse()) {
-                        isSorted = false;
+                for (int i = 0; i < newList.size() - 1; i++) {
+                    try {
+                        if (newList.get(i).getCourse() > newList.get(i + 1).getCourse()) {
+                            isSorted = false;
 
-                        StudentCase temp = newList.get(i + 1);
-                        newList.set(newList.get(i), i + 1);
-                        newList.set(temp, i);
+                            StudentCase temp = newList.get(i + 1);
+                            newList.set(newList.get(i), i + 1);
+                            newList.set(temp, i);
+                        }
+                    } catch (LinkedList.LinkedListException e) {
+                        e.printStackTrace();
                     }
-                } catch (LinkedList.LinkedListException e) {
-                    e.printStackTrace();
                 }
             }
+        } else {
+            return null;
         }
-
 
         return toListString(newList);
     }
@@ -62,6 +65,20 @@ public class StudentSorting {
         }
 
         return resultList;
+    }
+
+    private boolean checkCorrectness (LinkedList<StudentCase> list) {
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                int a = list.get(i).getCourse();
+                if(a >= 7) {
+                    return false;
+                }
+            }
+        }catch (LinkedList.LinkedListException e) {
+                e.printStackTrace();
+        }
+        return true;
     }
 
 }

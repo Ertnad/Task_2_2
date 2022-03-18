@@ -1,6 +1,5 @@
 package ru.vsu.sc.tretyakov_d_s.Utils;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -8,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -24,27 +22,10 @@ import javax.swing.plaf.FontUIResource;
  * @author Дмитрий Соломатин (кафедра ПиИТ ФКН ВГУ)
  */
 public class SwingUtils {
-  /**
-   * Показать диалоговое окно с информационным сообщением
-   * @param message Сообщение
-   * @param title Заголовок окна
-   */
-  public static void showInfoMessageBox(String message, String title) {
-    JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
-  }
-
-  /**
-   * Показать диалоговое окно с информационным сообщением
-   * @param message Сообщение
-   */
-  public static void showInfoMessageBox(String message) {
-    showInfoMessageBox(message, "Сообщение");
-  }
 
   /**
    * Показать диалоговое окно с сообщением об ошибке
    * @param message Сообщение
-   * @param title Заголовок окна
    * @param ex Иcключение
    */
   public static void showErrorMessageBox(String message, String title, Throwable ex) {
@@ -59,7 +40,15 @@ public class SwingUtils {
         sb.append(ste);
       }
     }
-    JOptionPane.showMessageDialog(null, sb.toString(), title, JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, message);
+  }
+
+  public static void showErrorMessageBox(String message) {
+    StringBuilder sb = new StringBuilder();
+    if (message != null) {
+      sb.append(message);
+    }
+    JOptionPane.showMessageDialog(null, message);
   }
 
   /**
@@ -77,35 +66,6 @@ public class SwingUtils {
    */
   public static void showErrorMessageBox(Throwable ex) {
     showErrorMessageBox(null, ex);
-  }
-
-  /**
-   * Установка обработчика по умолчанию для ошибок, которые не пререхвачены
-   * (обработчик устанавливается только для текущей нити, поэтому надо
-   *  вызывать, например, в конструкторе формы, а не в методе main(...)
-   */
-  public static void setShowMessageDefaultErrorHandler() {
-    JComponent comp;
-    Thread.setDefaultUncaughtExceptionHandler((Thread t, Throwable ex) -> {
-      showErrorMessageBox(ex);
-    });
-  }
-
-  /**
-   * Задание фиксированного размера для компонента Swing
-   * @param <T> Тип компонента
-   * @param comp Компонент
-   * @param width Ширина компонента
-   * @param height Высота компонента
-   * @return
-   */
-  public static <T extends Component> T setFixedSize(T comp, int width, int height) {
-    Dimension d = new Dimension(width, height);
-    comp.setMaximumSize(d);
-    comp.setMinimumSize(d);
-    comp.setPreferredSize(d);
-    comp.setSize(d);
-    return comp;
   }
 
   /**
@@ -177,18 +137,11 @@ public class SwingUtils {
   }
 
   /**
-   * Установка имени шрифта по умолчанию для элементов управления
-   * @param fontName Название шрифта (null - не менять)
-   */
-  public static void setDefaultFont(String fontName) {
-    setDefaultFont(fontName, -1);
-  }
-
-  /**
    * Установка размера шрифта по умолчанию для элементов управления
    * @param size Размер шрифта (меньше или равно 0 - не менять)
    */
   public static void setDefaultFont(int size) {
     setDefaultFont(null, size);
   }
+
 }

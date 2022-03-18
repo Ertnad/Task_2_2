@@ -38,7 +38,8 @@ public class FrameMain extends JFrame {
 
     JTableUtils.initJTableForArray(table1, 150, true, true, true, false, 25, 15);
 
-    
+
+
     fileChooserOpen = new JFileChooser();
     fileChooserSave = new JFileChooser();
     fileChooserOpen.setCurrentDirectory(new File("."));
@@ -79,9 +80,13 @@ public class FrameMain extends JFrame {
         String[][] str = JTableUtils.readStringArrayFromJTable(table1);
         List<List<String>> inputList = ListUtils.toList2(str);
         StudentSorting sort = new StudentSorting();
-
-        JTableUtils.writeArrayToJTable(table1, ListUtils.toStringArr2(sort.sortStudent(inputList)), null);
-        JTableUtils.renameJTableColumns(table1, columnNames);
+        List<List<String>> outputList = sort.sortStudent(inputList);
+        if (!(outputList == null)) {
+          JTableUtils.writeArrayToJTable(table1, ListUtils.toStringArr2(outputList), null);
+        } else {
+          SwingUtils.showErrorMessageBox("Ошибка с исходным списком студентов." +
+                  " Курс может быть только от 1 до 6");
+        }
 
       } catch (Exception exception) {
         SwingUtils.showErrorMessageBox(exception);

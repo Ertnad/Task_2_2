@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.*;
 
 public class ListUtils {
-  public static List<List<String>> loadStringList2FromFile(String fileName) throws FileNotFoundException {
+  public static List<List<String>> loadStringList2FromFile(String fileName) {
     try {
       return toList2(readLinesFromFile(fileName));
     } catch (FileNotFoundException e) {
@@ -73,33 +73,18 @@ public class ListUtils {
   }
 
   public static String toString(List<String> list) {
-    String str = "";
-    for (int i = 0; i < list.size(); i++) {
-      str += list.get(i) + " ";
+    StringBuilder str = new StringBuilder();
+    for (String s : list) {
+      str.append(s).append(" ");
     }
-    return  str;
+    return str.toString();
   }
-
-  public static void printListInConsole(List<String> list) {
-    for (int i = 0; i < list.size(); i++) {
-      System.out.print(list.get(i));
-      System.out.print(" ");
-    }
-  }
-
-  public static void printList2InConsole(List<List<String>> list) {
-    for (int i = 0; i < list.size(); i++) {
-      printListInConsole(list.get(i));
-      System.out.println();
-    }
-  }
-
 
 
   public static void writeList2ToFile(String fileName, List<List<String>> list) {
     try (PrintWriter out = new PrintWriter(fileName)) {
-      for (int i = 0; i < list.size(); i++) {
-        out.println(toString(list.get(i)));
+      for (List<String> strings : list) {
+        out.println(toString(strings));
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
